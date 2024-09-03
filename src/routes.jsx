@@ -3,6 +3,7 @@ import HomePage from "./containers/home.page/home.page";
 // import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import "./App.css";
 import LoginPage from "./containers/login/login";
+import SignupPage from "./containers/signup/signup";
 
 export default function Routers() {
   return (
@@ -10,6 +11,7 @@ export default function Routers() {
       {/* <ScrollToTop /> */}
       <Routes>
         <Route path="/login" element={<LoginPage/>} />
+        <Route path="/signup" element={<SignupPage/>} />
         <Route path="/" element={<HomePage/>} />
       </Routes>
     </Router>

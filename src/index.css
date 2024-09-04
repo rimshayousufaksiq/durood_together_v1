@@ -32,8 +32,9 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-color: rgb(249, 251, 252);
+  background-color: rgb(243, 255, 241);
 }
+
 
 h1 {
   font-size: 3.2em;

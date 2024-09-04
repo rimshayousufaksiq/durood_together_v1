@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { supabase } from '../../supabase'; // Import the Supabase client
+import { Link } from "react-router-dom";
 
 export default function LoginPage(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,13 +31,13 @@ export default function LoginPage(props) {
     if (form.isValid()) {
       setIsLoading(true);
       const { email, password } = form.values;
-  
+
       try {
         const { error } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
-  
+
         if (error) {
           console.error('Login Error:', error);
           alert(`Error: ${error.message}`);
@@ -52,10 +53,10 @@ export default function LoginPage(props) {
       }
     }
   };
-  
+
   return (
-    <div className="w-full flex min-h-screen overflow-hidden">
-      <div className="w-1/2 flex justify-center items-center pr-40 pb-14">
+    <div className="w-full min-h-screen flex overflow-hidden">
+      <div className="w-1/2 flex justify-center items-center pr-40 ">
         <Paper
           radius="md"
           p="xl"
@@ -126,25 +127,23 @@ export default function LoginPage(props) {
 
           <Text align="center" mt="md">
             Don't have an account?{' '}
-            <Text
-              color="green"
-              component="span"
-              weight={700}
-              onClick={() => alert('Sign Up')}
+            <Link
+              to="/signup"
               className="text-green-700 hover:text-blue-800 font-semibold underline cursor-pointer"
             >
               Sign up
-            </Text>
-          </Text>
+            </Link>
+          </Text>;
         </Paper>
       </div>
-      <div className="w-1/2 min-h-screen overflow-hidden">
+      <div className="w-1/2 h-screen overflow-hidden">
         <img
-          src="../src/assets/images/mosque.webp"
+          src="../src/assets/images/religious_image2.jpeg"
           alt="mosque"
-          className="w-full h-screen object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
     </div>
+
   );
 }

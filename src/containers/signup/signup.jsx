@@ -8,9 +8,10 @@ import {
   Button,
   Select,
 } from '@mantine/core';
-import { FaEnvelope, FaLock, FaUser, FaCity  } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaUser, FaCity } from 'react-icons/fa';
 import { GiWorld } from 'react-icons/gi';
 import { supabase } from '../../supabase'; // Import the Supabase client
+import { Link } from "react-router-dom";
 
 export default function SignupPage(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -53,8 +54,8 @@ export default function SignupPage(props) {
   };
 
   return (
-    <div className="w-full flex min-h-screen overflow-hidden">
-      <div className="w-1/2 flex justify-center items-center pr-40 pb-14">
+    <div className="w-full min-h-screen flex overflow-hidden">
+      <div className="w-1/2 flex justify-center items-center pr-40 ">
         <Paper
           radius="md"
           p="xl"
@@ -110,7 +111,7 @@ export default function SignupPage(props) {
                   input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
                 }}
               />
-              <Select
+              {/* <Select
                 mt="md"
                 leftSection={<GiWorld size={18} className="ml-3" />}
                 comboboxProps={{ withinPortal: true }}
@@ -120,16 +121,16 @@ export default function SignupPage(props) {
                   input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
                 }}
               />
-               <Select
+              <Select
                 mt="md"
-                leftSection={<FaCity  size={18} className="ml-3" />}
+                leftSection={<FaCity size={18} className="ml-3" />}
                 comboboxProps={{ withinPortal: true }}
                 data={['Karachi', 'Lucknow', 'ABC', 'XYZ']}
                 placeholder="Select City"
                 classNames={{
                   input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
                 }}
-              />
+              /> */}
               <Button
                 fullWidth
                 mt="md"
@@ -147,23 +148,20 @@ export default function SignupPage(props) {
 
           <Text align="center" mt="md">
             Already have an account?{' '}
-            <Text
-              color="green"
-              component="span"
-              weight={700}
-              onClick={() => alert('login')}
+            <Link
+              to="/login"
               className="text-green-700 hover:text-blue-800 font-semibold underline cursor-pointer"
             >
               Login
-            </Text>
-          </Text>
+            </Link>
+          </Text>;
         </Paper>
       </div>
-      <div className="w-1/2 min-h-screen overflow-hidden">
+      <div className="w-1/2 h-screen overflow-hidden">
         <img
-          src="../src/assets/images/mosque.webp"
+          src="../src/assets/images/religious_image2.jpeg"
           alt="mosque"
-          className="w-full h-screen object-cover"
+          className="w-full h-full object-cover"
         />
       </div>
     </div>

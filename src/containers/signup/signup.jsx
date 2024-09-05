@@ -103,7 +103,7 @@ export default function SignupPage(props) {
   return (
     <div className="w-full min-h-screen flex overflow-hidden">
       <ToastContainer />
-      <div className="w-1/2 flex justify-center items-center pr-40 ">
+      <div className="w-1/2 flex justify-center items-center">
         <Paper
           radius="md"
           p="xl"

@@ -7,7 +7,7 @@ import {
   Stack,
   Button,
 } from '@mantine/core';
-import { FaEnvelope, FaLock,FaEyeSlash,FaEye } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaEyeSlash, FaEye } from 'react-icons/fa';
 import { supabase } from '../../supabase'; // Import the Supabase client
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
@@ -64,8 +64,8 @@ export default function LoginPage(props) {
 
   return (
     <div className="w-full min-h-screen flex overflow-hidden">
-      <ToastContainer /> 
-      <div className="w-1/2 flex justify-center items-center pr-40 ">
+      <ToastContainer />
+      <div className="w-1/2 flex justify-center items-center">
         <Paper
           radius="md"
           p="xl"
@@ -105,9 +105,9 @@ export default function LoginPage(props) {
                 error={form.errors.password}
                 radius="md"
                 rightSection={
-                  passwordVisible ? 
-                  <FaEyeSlash size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} /> : 
-                  <FaEye size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} />
+                  passwordVisible ?
+                    <FaEyeSlash size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} /> :
+                    <FaEye size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} />
                 }
                 classNames={{
                   input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
@@ -151,13 +151,13 @@ export default function LoginPage(props) {
         </Paper>
       </div>
       {/* Image section, hidden on small screens */}
-    <div className="hidden md:block w-full md:w-1/2 h-screen overflow-hidden">
-      <img
-        src="../src/assets/images/religious_image2.jpeg"
-        alt="mosque"
-        className="w-full h-full object-cover"
-      />
-    </div>
+      <div className="hidden md:block w-full md:w-1/2 h-screen overflow-hidden">
+        <img
+          src="../src/assets/images/religious_image2.jpeg"
+          alt="mosque"
+          className="w-full h-full object-cover"
+        />
+      </div>
     </div>
 
   );

@@ -7,12 +7,17 @@ import {
   Stack,
   Button,
 } from '@mantine/core';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock,FaEyeSlash,FaEye } from 'react-icons/fa';
 import { supabase } from '../../supabase'; // Import the Supabase client
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -39,15 +44,18 @@ export default function LoginPage(props) {
         });
 
         if (error) {
-          console.error('Login Error:', error);
-          alert(`Error: ${error.message}`);
-        } else {
-          alert('Logged in successfully!');
-          // Redirect or perform additional actions here
+          toast.error(`Error: ${error.message}`);
+        }
+        else {
+          toast.success('Logged in successfully!', {
+            onClose: () => {
+              navigate("/home");
+            }
+          });
+          form.reset(); // Clear the form fields
         }
       } catch (error) {
-        console.error('Login Failed:', error);
-        alert(`Login failed: ${error.message}`);
+        toast.error(`Login failed: ${error.message}`);
       } finally {
         setIsLoading(false);
       }
@@ -56,6 +64,7 @@ export default function LoginPage(props) {
 
   return (
     <div className="w-full min-h-screen flex overflow-hidden">
+      <ToastContainer /> 
       <div className="w-1/2 flex justify-center items-center pr-40 ">
         <Paper
           radius="md"
@@ -88,13 +97,18 @@ export default function LoginPage(props) {
               <TextInput
                 required
                 className="pt-5"
-                type='password'
+                type={passwordVisible ? 'text' : 'password'}  // Toggle input type
                 leftSection={<FaLock size={18} className="ml-3" />}
                 placeholder="Enter your password"
                 value={form.values.password}
                 onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
                 error={form.errors.password}
                 radius="md"
+                rightSection={
+                  passwordVisible ? 
+                  <FaEyeSlash size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} /> : 
+                  <FaEye size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} />
+                }
                 classNames={{
                   input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
                 }}
@@ -136,13 +150,14 @@ export default function LoginPage(props) {
           </Text>;
         </Paper>
       </div>
-      <div className="w-1/2 h-screen overflow-hidden">
-        <img
-          src="../src/assets/images/religious_image2.jpeg"
-          alt="mosque"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {/* Image section, hidden on small screens */}
+    <div className="hidden md:block w-full md:w-1/2 h-screen overflow-hidden">
+      <img
+        src="../src/assets/images/religious_image2.jpeg"
+        alt="mosque"
+        className="w-full h-full object-cover"
+      />
+    </div>
     </div>
 
   );

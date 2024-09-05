@@ -8,13 +8,18 @@ import {
   Button,
   Select,
 } from '@mantine/core';
-import { FaEnvelope, FaLock, FaUser, FaCity } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaUser, FaCity, FaEyeSlash,FaEye } from 'react-icons/fa';
 import { GiWorld } from 'react-icons/gi';
 import { supabase } from '../../supabase'; // Import the Supabase client
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
 
 export default function SignupPage(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -30,11 +35,40 @@ export default function SignupPage(props) {
     },
   });
 
-  const handleSignup = async () => {
+  // const handleSignup = async () => {
+  //   setIsLoading(true); // Start loading
+  //   const { email, password, name } = form.values;
+
+  //   const { data, error } = await supabase.auth.signUp({
+  //     email,
+  //     password,
+  //     options: {
+  //       data: {
+  //         full_name: name,
+  //       }
+  //     }
+  //   });
+
+  //   setIsLoading(false); // End loading
+
+  //   if (error) {
+  //     if (error.code === "over_email_send_rate_limit") {
+  //       toast.error("Too many signup attempts. Please try again later.");
+  //     }
+  //     else{ 
+  //       toast.error(`Error: ${error.message}`);
+  //     }
+  //   } else {
+  //     toast.success("Account successfully created!.");
+  //     form.reset();
+  //   }
+  // };
+
+  const handleSignup = () => {
     setIsLoading(true); // Start loading
     const { email, password, name } = form.values;
 
-    const { data, error } = await supabase.auth.signUp({
+    supabase.auth.signUp({
       email,
       password,
       options: {
@@ -42,19 +76,33 @@ export default function SignupPage(props) {
           full_name: name,
         }
       }
-    });
-
-    setIsLoading(false); // End loading
-
-    if (error) {
-      alert(`Error: ${error.message}`);
-    } else {
-      alert("Check your email for the verification link.");
-    }
+    })
+      .then(({ data, error }) => {
+        if (error) {
+          if (error.code === "over_email_send_rate_limit") {
+            toast.error("Too many signup attempts. Please try again later.");
+          } else {
+            toast.error(`Error: ${error.message}`);
+          }
+        } else {
+          toast.success('Account created successfully! Check your email for the verification link.', {
+            onClose: () => {
+              navigate("/home");
+            }
+          });
+          form.reset(); // Clear the form fields
+        }
+      })
+      .catch((error) => {
+        toast.error(`Signup failed: ${error.message}`);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
-
   return (
     <div className="w-full min-h-screen flex overflow-hidden">
+      <ToastContainer />
       <div className="w-1/2 flex justify-center items-center pr-40 ">
         <Paper
           radius="md"
@@ -100,13 +148,19 @@ export default function SignupPage(props) {
               <TextInput
                 required
                 className="pt-5"
-                type='password'
+                type={passwordVisible ? 'text' : 'password'}  // Toggle input type
                 leftSection={<FaLock size={18} className="ml-3" />}
                 placeholder="Enter your password"
                 value={form.values.password}
                 onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
                 error={form.errors.password}
                 radius="md"
+                rightSection={
+                  passwordVisible ? 
+                  <FaEyeSlash size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} /> : 
+                  <FaEye size={18} onClick={() => setPasswordVisible(!passwordVisible)} style={{ cursor: 'pointer' }} />
+                }
+                
                 classNames={{
                   input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
                 }}
@@ -157,13 +211,14 @@ export default function SignupPage(props) {
           </Text>;
         </Paper>
       </div>
-      <div className="w-1/2 h-screen overflow-hidden">
-        <img
-          src="../src/assets/images/religious_image2.jpeg"
-          alt="mosque"
-          className="w-full h-full object-cover"
-        />
-      </div>
+      {/* Image section, hidden on small screens */}
+    <div className="hidden md:block w-full md:w-1/2 h-screen overflow-hidden">
+      <img
+        src="../src/assets/images/religious_image2.jpeg"
+        alt="mosque"
+        className="w-full h-full object-cover"
+      />
+    </div>
     </div>
   );
 }

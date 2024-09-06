@@ -47,11 +47,8 @@ export default function LoginPage(props) {
           toast.error(`Error: ${error.message}`);
         }
         else {
-          toast.success('Logged in successfully!', {
-            onClose: () => {
-              navigate("/home");
-            }
-          });
+          toast.success('Logged in successfully!')
+          navigate("/");
           form.reset(); // Clear the form fields
         }
       } catch (error) {

@@ -85,11 +85,8 @@ export default function SignupPage(props) {
             toast.error(`Error: ${error.message}`);
           }
         } else {
-          toast.success('Account created successfully! Check your email for the verification link.', {
-            onClose: () => {
-              navigate("/home");
-            }
-          });
+          toast.success('Account created successfully! Check your email for the verification link.')
+          navigate("/login"); 
           form.reset(); // Clear the form fields
         }
       })
@@ -109,12 +106,12 @@ export default function SignupPage(props) {
           p="xl"
           withBorder
           {...props}
-          className="w-[500px] p-8 bg-white shadow-lg shadow-green-100 border border-gray-200 rounded-lg transition-transform transform hover:scale-105"
+          className="w-[500px] p-8 bg-color shadow-lg shadow-green-100 border border-gray-200 rounded-lg transition-transform transform hover:scale-105"
         >
-          <Text className="text-3xl font-bold text-green-900 mb-4" align="left">
+          <Text className="text-3xl font-bold  mb-4" align="left">
             Sign up
           </Text>
-          <Text className="" align="left">Please create your account to continue</Text>
+          <Text className="text-loginText" align="left">Please create your account to continue</Text>
 
           <form onSubmit={form.onSubmit(handleSignup)}>
             <Stack>
@@ -128,7 +125,7 @@ export default function SignupPage(props) {
                 error={form.errors.name}
                 radius="md"
                 classNames={{
-                  input: 'h-10 border border-gray-300 rounded-full bg-gray-100 pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
+                  input: 'h-10 border border-gray-300 rounded-full  pl-10 pr-3 py-2 text-gray-900 placeholder-gray-500',
                 }}
               />
               <TextInput
@@ -191,7 +188,7 @@ export default function SignupPage(props) {
                 radius="xl"
                 loading={isLoading}
                 classNames={{
-                  root: 'w-full bg-green-600 text-white text-center font-semibold rounded-full h-10 hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none shadow-md',
+                  root: 'w-full bg-buttonColor text-white text-center font-semibold rounded-full h-10 hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:outline-none shadow-md',
                 }}
                 type="submit"
               >
